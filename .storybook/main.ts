@@ -12,6 +12,16 @@ const config: StorybookConfig = {
     name: '@storybook/nextjs',
     options: {},
   },
-  staticDirs: ['..\\public'],
+  staticDirs: ['../public'], // ✅ 경로 수정
+  webpackFinal: async (config) => {
+    if (config.resolve) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        '@': require('path').resolve(__dirname, '../src'), // ✅ Storybook에서 @ alias 지원
+      };
+    }
+    return config;
+  },
 };
+
 export default config;
